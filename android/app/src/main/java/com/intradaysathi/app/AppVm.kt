@@ -69,9 +69,9 @@ class AppVm(app: Application) : AndroidViewModel(app) {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: HttpException) {
-                error = detail(e.response()?.errorBody()?.string()) ?: e.message()
+                error = "Server replied HTTP ${e.code()} " + (detail(e.response()?.errorBody()?.string()) ?: "").take(200)
             } catch (e: Exception) {
-                error = e.message ?: e.javaClass.simpleName
+                error = (e.message?.takeIf { it.isNotBlank() } ?: e.javaClass.simpleName)
             } finally {
                 busy -= 1
             }
