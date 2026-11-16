@@ -194,7 +194,7 @@ fun sigColor(s: String): Color = when (s) { "BUY" -> Gain; "SELL" -> Loss; else 
 fun IntervalChips(vm: AppVm) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf("5m", "15m").forEach { i ->
-            FilterChip(selected = vm.interval == i, onClick = { vm.setInterval(i) }, label = { Text(i) })
+            FilterChip(selected = vm.interval == i, onClick = { vm.changeInterval(i) }, label = { Text(i) })
         }
     }
 }

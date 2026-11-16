@@ -106,7 +106,7 @@ class AppVm(app: Application) : AndroidViewModel(app) {
         signals = a.signals(interval).list("items")
     }
 
-    fun setInterval(i: String) {
+    fun changeInterval(i: String) {
         interval = i
         if (selected != null) loadStock() else refreshHome()
     }
