@@ -26,6 +26,14 @@ async def lifespan(_: FastAPI):
 app = FastAPI(title="Intraday Sathi API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
+@app.get("/")
+def root():
+    return {
+        "app": "Intraday Sathi",
+        "status": "running",
+        "health": "/health",
+        "docs": "/docs"
+    }
 
 def sym(s: str) -> str:
     return s.upper().strip().removesuffix(".NS")

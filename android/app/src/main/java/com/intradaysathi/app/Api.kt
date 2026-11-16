@@ -10,6 +10,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
+import okhttp3.logging.HttpLoggingInterceptor
 
 interface SathiApi {
     @GET("disclaimer") suspend fun disclaimer(): JsonObject
@@ -37,10 +38,17 @@ interface SathiApi {
 
     companion object {
         fun create(baseUrl: String): SathiApi {
+
+            val logging = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(600, TimeUnit.SECONDS) // model training can take minutes
+                .readTimeout(600, TimeUnit.SECONDS)
+                .addInterceptor(logging)
                 .build()
+
             return Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(client)
@@ -48,5 +56,5 @@ interface SathiApi {
                 .build()
                 .create(SathiApi::class.java)
         }
-    }
+    }   
 }
